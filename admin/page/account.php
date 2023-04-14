@@ -2,11 +2,12 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <button class="btn btn-success mb-3">
+                <button class="btn btn-success mb-3 tambah-user">
                     <em class="fas fa-user-plus"></em> Tambah User
                 </button>
+                <div id="msg"></div>
                 <div class="table-responsive">
-                    <table class="table table-hover data">
+                    <table class="table table-hover account">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -25,3 +26,5 @@
         </div>
     </div>
 </div>
+
+<?php require 'modal/account.php'; ?>

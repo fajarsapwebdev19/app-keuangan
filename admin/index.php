@@ -28,7 +28,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
 
     <!-- css bootstrap -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/bs-show-password/css/show-password-toggle.min.css">
     <!-- css datatables -->
     <link rel="stylesheet" href="../assets/datatables/css/dataTables.bootstrap5.min.css">
     <!-- css datepicker -->
@@ -46,6 +45,20 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
         input.error:checked{
             background-color: #dc3545;
         }
+
+        th.text-center, td.text-center{
+            text-align: center;
+        }
+
+        select.error{
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        select.valid{
+            border: 1px solid #198754;
+        }
+
         .error{
             color: #dc3545;
         }
@@ -65,6 +78,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
         .icon:hover{
             cursor: pointer;
         }
+
+        .input-group-text {
+            background-color: #fff;
+        }
+        
     </style>
 </head>
 
@@ -123,7 +141,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
     <script src="../assets/datatables/js/jquery.dataTables.min.js"></script>
     <script src="../assets/datatables/js/dataTables.bootstrap5.min.js"></script>
     <script src="../assets/datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="../assets/bs-show-password/js/show-password-toggle.min.js"></script>
 
     <script>
         if ( window.history.replaceState ) {
@@ -208,7 +225,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
                             {
                                 $('#message').show();
                                 $('#message').html('<div class="alert alert-danger bg-danger text-white"><em class="fas fa-times"></em> Lengkapi Data</div>');
-                                $('#message').delay(5000).fadeOut('slow');
+                                O
                             }
                             else if(response == "sukses")
                             {
@@ -223,10 +240,10 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
                                 $('#message').delay(5000).fadeOut('slow');
                             }
                         }
-                    })
+                    });
                 }
-            })
-        })
+            });
+        });
 
         // show pass and hide pass
         $('#form-pass').on('click', '.pw-lm', function(){
@@ -276,16 +293,28 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
 
         // eksekusi klik tombol ubah password
         $('#form-pass').on('click', '.update', function(){
-            $('#form-pass').validate({
+           var validate = $('#form-pass').validate({
                 errorClass: "error",
                 errorElement: "span",
                 rules: {
                     pass_lama:{
                         required: true
+                    },
+                    pass_baru: {
+                        required: true
+                    },
+                    kon_pass_baru: {
+                        required: true,
+                        equalTo: ".pass-baru"
                     }
                 },
                 messages:{
-                    pass_lama : "Password Lama Kosong"
+                    pass_lama : "Password Lama Kosong",
+                    pass_baru: "Password Baru Kosong",
+                    kon_pass_baru: {
+                        required: "Konfirmasi Password Baru Kosong",
+                        equalTo: "Konfirmasi Password Tidak Sama"
+                    }
                 },
 
                 errorPlacement: function ( error, element ) {
@@ -296,8 +325,292 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
                     }
 
                 },
+
+                submitHandler:function(form){
+                    var data = $('#form-pass').serialize();            
+                    $.ajax({
+                        url: "ajax/update/password.php",
+                        data: data,
+                        type: "post",
+                        success:function(response)
+                        {
+                            if(response == "null")
+                            {
+                                $('#msg').show();
+                                $('#msg').html("<div class='alert alert-danger bg-danger text-white'><em class='fas fa-times-circle'></em> Form Kosong !</div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                            }
+                            else if(response == "notsame")
+                            {
+                                $('#msg').show();
+                                $('#msg').html("<div class='alert alert-danger bg-danger text-white'><em class='fas fa-times-circle'></em> Konfirmasi Password Tidak Sama !</div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                            }
+                            else if(response == "passoldnotfound")
+                            {
+                                $('#msg').show();
+                                $('#msg').html("<div class='alert alert-danger bg-danger text-white'><em class='fas fa-times-circle'></em> Password Lama Tidak Sesuai !</div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                            }
+                            else if(response == "usernotfound")
+                            {
+                                $('#msg').show();
+                                $('#msg').html("<div class='alert alert-danger bg-danger text-white'><em class='fas fa-times-circle'></em> User Tidak Dikenali !</div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                            }
+                            else if(response == "update")
+                            {
+                                validate.resetForm();
+                                $('#form-pass')[0].reset();
+                                $('#msg').show();
+                                $('#msg').html("<div class='alert alert-success bg-success text-white'><em class='fas fa-check-circle'></em> Berhasil Ubah Password !</div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                            }else{
+                                $('#msg').show();
+                                $('#msg').html("<div class='alert alert-danger bg-danger text-white'><em class='fas fa-times-circle'></em> Terjadi Kesalahan !</div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.tambah-user').click(function(){
+            $('#add-users').modal('show');
+        });
+
+        var account = $('.account').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "ajax/data/users.php",
+            "fnRowCallback": function(nRow, aData, iDisplayIndex) {
+                var info = $(this).DataTable().page.info();
+                $("td:nth-child(1)", nRow).html(info.start + iDisplayIndex + 1);
+                return nRow;
+            },
+            order: [ 6, 'asc' ],
+            "columnDefs":[
+                {className: "text-center", targets: [0,2,5,6,7]}
+            ]
+        });
+
+        $('.account').on('click', '.update', function(){
+            var id = $(this).data("id");
+
+            $.ajax({
+                url: "ajax/method/update_user.php",
+                data: {id:id},
+                type: "post",
+                success:function(response)
+                {
+                    $('#update_user').modal('show');
+                    $('#form_update_user').html(response);
+                }
             })
         })
+
+        $('#form-user').on('click', '.pwd', function(){
+            var pwl = $('.shw-pwd').attr("type");
+
+            if(pwl == "password")
+            {
+                $('.shw-pwd').attr("type", "text");
+                $('.icn-pwd').removeClass("fa-eye");
+                $('.icn-pwd').addClass("fa-eye-slash");
+            }else{
+                $('.shw-pwd').attr("type", "password");
+                $('.icn-pwd').removeClass("fa-eye-slash");
+                $('.icn-pwd').addClass("fa-eye");
+            }
+        });
+
+        $('#form-user').on('click', '.tambah', function(){
+            $.validator.addMethod(
+                "date",
+                function(value, element) {
+                    // yyyy-mm-dd
+                    var re = /^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/;
+
+                    // valid if optional and empty OR if it passes the regex test
+                    return (this.optional(element) && value=="") || re.test(value);
+                }
+            );
+            var validated = $('#form-user').validate({
+                rules: {
+                    nama: {
+                        required: true
+                    },
+                    jenis_kelamin: {
+                        required: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    tempat_lahir:{
+                        required: true
+                    },
+                    tanggal_lahir: {
+                        required: true,
+                        date: true
+                    },
+                    username:{
+                        required: true
+                    },
+                    password:{
+                        required: true
+                    },
+                    role: {
+                        required: true
+                    }
+                },
+                messages: {
+                    nama: "Nama Kosong",
+                    jenis_kelamin: "Pilih Salah Satu",
+                    tempat_lahir: "Tempat Lahir Kosong",
+                    tanggal_lahir: {
+                        required: "Tanggal Lahir Kosong",
+                        date: "Masukan Format Tanggal dd-mm-yyyy"
+                    },
+                    username: "Username Kosong",
+                    password: "Password Kosong",
+                    role: "Pilih Salah Satu"
+                },
+
+                errorPlacement: function(error, element) 
+                {
+                    if ( element.is(":radio") ) 
+                    {
+                        error.appendTo( element.parents('.radio') );
+                    }
+                    else if(element.parent().hasClass('input-group')){
+                    error.insertAfter( element.parent() );
+                    }
+                    else 
+                    { // This is the default behavior 
+                        error.insertAfter( element );
+                    }
+                },
+                submitHandler:function(form){
+                    var data = $('#form-user').serialize();
+
+                    $.ajax({
+                        url: "ajax/add/users.php",
+                        data: data,
+                        type: "post",
+                        success:function(response)
+                        {
+                            if(response == "null")
+                            {
+                                $('#msg').show();
+                                $('#msg').html('<div class="alert alert-danger bg-danger text-white"><em class="fas fa-times-circle"></em> Form Kosong !</div>');
+                                $('#msg').delay(5000).fadeOut("slow");
+                            }
+                            else if(response == "success")
+                            {
+                                $('#form-user')[0].reset();
+                                validated.resetForm();
+                                $('#msg').show();
+                                $('#msg').html('<div class="alert alert-success bg-success text-white"><em class="fas fa-check-circle"></em> Berhasil Tambah Pengguna !</div>');
+                                $('#msg').delay(5000).fadeOut("slow");
+                                $('#add-users').modal('hide');
+                                account.ajax.reload(0);
+                            }else{
+                                $('#msg').show();
+                                $('#msg').html('<div class="alert alert-danger bg-danger text-white"><em class="fas fa-times-circle"></em> Terjadi Kesalahan !</div>');
+                                $('#msg').delay(5000).fadeOut("slow");
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        $('#form_update_user').on('click', '.update', function(){
+            $.validator.addMethod(
+                "date",
+                function(value, element) {
+                    // dd-mm-yyyy
+                    var re = /^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/;
+
+                    // valid if optional and empty OR if it passes the regex test
+                    return (this.optional(element) && value=="") || re.test(value);
+                }
+            );
+            var validate = $("#form_update_user").validate({
+                rules:{
+                    nama: {
+                        required: true
+                    },
+                    jenis_kelamin: {
+                        required: true
+                    },
+                    tempat_lahir : {
+                        required: true
+                    },
+                    tanggal_lahir: {
+                        required: true,
+                        date: true
+                    },
+                    status_akun:{
+                        required: true
+                    }
+                },
+                messages: {
+                    nama: "Nama Kosong",
+                    jenis_kelamin: "Pilih Salah Satu",
+                    tempat_lahir: "Tempat Lahir Kosong",
+                    tanggal_lahir: {
+                        required: "Tanggal Lahir Kosong",
+                        date: "Masukan Tanggal Dengan Format : dd-mm-yyyy"
+                    },
+                    status_akun: "Pilih Salah Satu"
+                },
+                errorPlacement: function(error, element) 
+                {
+                    if ( element.is(":radio") ) 
+                    {
+                        error.appendTo( element.parents('.radio') );
+                    }
+                    else if(element.parent().hasClass('input-group')){
+                    error.insertAfter( element.parent() );
+                    }
+                    else 
+                    { // This is the default behavior 
+                        error.insertAfter( element );
+                    }
+                },
+                submitHandler:function(form)
+                {
+                    var data = $('#form_update_user').serialize();
+
+                    $.ajax({
+                        url: "ajax/update/users.php",
+                        data: data,
+                        type: "post",
+                        success:function(response)
+                        {
+                            if(response == "null")
+                            {
+                                $("#msg").show();
+                                $('#msg').html("<div class='alert alert-danger bg-danger text-white'><em class='fas fa-times-circle'></em> Form Kosong </div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                            }
+                            else if(response == "sukses")
+                            {
+                                $("#msg").show();
+                                $('#msg').html("<div class='alert alert-success bg-success text-white'><em class='fas fa-check-circle'></em> Berhasil Ubah Data Pengguna </div>");
+                                $('#msg').delay(5000).fadeOut('slow');
+                                $('#update_user').modal('hide');
+                                account.ajax.reload(0);
+                            }
+                        }
+                    })
+                }
+            })
+        })
+
+
 
         $('.data').DataTable();
     </script>

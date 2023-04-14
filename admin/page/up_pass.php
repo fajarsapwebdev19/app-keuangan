@@ -2,16 +2,15 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
+                <div id="msg"></div>
                 <form method="post" id="form-pass">
                     <div class="mb-3">
                         <label for="">
                             Password Lama
                         </label>
                         <div class="input-group">
-                            <input type="password" name="pass_lama" class="form-control rounded" required>
-                            <button id="toggle-password" type="button" class="d-none"
-                                aria-label="Show password as plain text. Warning: this will display your password on the screen.">
-                            </button>
+                            <input type="password" name="pass_lama" class="form-control shw-pwl" required>
+                            <span class="input-group-text pw-lm icon"><em class="fas fa-eye icn-pwl"></em></span>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -19,21 +18,17 @@
                             Password Baru
                         </label>
                         <div class="input-group">
-                            <input type="password" name="pass_baru" class="form-control input-password rounded" required>
-                            <button id="toggle-password" type="button" class="d-none"
-                                aria-label="Show password as plain text. Warning: this will display your password on the screen.">
-                            </button>
+                            <input type="password" name="pass_baru" class="form-control shw-pwb pass-baru" required>
+                            <span class="input-group-text pwb icon"><em class="fas fa-eye icn-pwb"></em></span>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="">
-                            Password Baru
+                           Konfirmasi Password Baru
                         </label>
                         <div class="input-group">
-                            <input type="password" name="pass_baru" class="form-control input-password rounded" required>
-                            <button id="toggle-password" type="button" class="d-none"
-                                aria-label="Show password as plain text. Warning: this will display your password on the screen.">
-                            </button>
+                            <input type="password" name="kon_pass_baru" class="form-control shw-kpwb" required>
+                            <span class="input-group-text icon kpwb"><em class="fas fa-eye icn-kpwb"></em></span>
                         </div>
                     </div>
                    
