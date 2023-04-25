@@ -21,15 +21,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>App Keuangan</title>
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-
     <style>
-        .error{
-            color: red;
-        }
-    </style>
+            input.error{
+                border: 1px solid #dc3545;
+            }
+            input.error:focus{
+                border: 1px solid #dc3545;
+            }
+            input.error:checked{
+                background-color: #dc3545;
+            }
+
+            th.text-center, td.text-center{
+                text-align: center;
+            }
+
+            select.error{
+                color: #dc3545;
+                border: 1px solid #dc3545;
+            }
+
+            select.valid{
+                border: 1px solid #198754;
+            }
+
+            .error{
+                color: #dc3545;
+            }
+
+            input.valid{
+                border: 1px solid #198754;
+            }
+
+            input.valid:checked{
+                background-color: #198754;
+            }
+
+            input.valid:focus{
+            border: 1px solid #198754;
+            }
+
+            .icon:hover{
+                cursor: pointer;
+            }
+
+            .input-group-text {
+                background-color: #fff;
+            }
+            
+        </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -62,6 +105,9 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class="card-footer bg-dark">
+                        <p class="text-center text-white">&copy; <?= date('Y') ?> FAJAR SAPUTRA</p>
                     </div>
                 </div>
             </div>
@@ -117,18 +163,18 @@
                                 $('#message').show();
                                 $('#message').html("<div class='alert alert-success bg-success text-white'>Berhasil Login !</div>");
                                 $('#message').delay(3000).fadeOut('slow');
-                                setTimeout(function(){
+                                window.setTimeout(function(){
                                     window.location='admin/';
-                                }, 5000);
+                                }, 2000);
                             }
                             else if(response == "gotouser")
                             {
                                 $('#message').show();
                                 $('#message').html("<div class='alert alert-success bg-success text-white'>Berhasil Login !</div>");
                                 $('#message').delay(3000).fadeOut('slow');
-                                setTimeout(function(){
+                                window.setTimeout(function(){
                                     window.location='user/';
-                                }, 5000);
+                                }, 2000);
                             }
                             else
                             {
@@ -137,10 +183,10 @@
                                 $('#message').delay(3000).fadeOut('slow');
                             }
                         }
-                    })
+                    });
                 }
-            })
-        })
+            });
+        });
     </script>
 
 </body>

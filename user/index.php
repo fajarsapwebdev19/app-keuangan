@@ -23,7 +23,7 @@ if (empty($_SESSION['token'])) {
         header('location: ../');
     }
 
-    if($data_user->role_id != 1)
+    if($data_user->role_id != 2)
     {
         ?>
             <script>
@@ -32,6 +32,8 @@ if (empty($_SESSION['token'])) {
             </script>
         <?php
     }
+
+    
 }
 
 $page = isset($_GET['page']) ? $_GET['page'] : "";
@@ -116,9 +118,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : "";
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link <?= ($page == "" ? 'active' : "")?>" aria-current="page" href="./">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= ($page == "account" ? 'active' : "")?>" href="?page=account">Account</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= ($page == "pemasukan" ? 'active' : "")?>" href="?page=pemasukan">Pemasukan</a>

@@ -49,7 +49,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="submit" class="btn btn-success update">Ubah</button>
+    <button type="submit" class="btn btn-success update"><em class="icon-load"></em> Ubah</button>
     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
 </div>
 

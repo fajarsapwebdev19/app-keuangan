@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-success tambah">Tambah</button>
+            <button type="submit" class="btn btn-success tambah"><em class="icon-load"></em> Tambah</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
         </div>
       </form>
@@ -79,6 +79,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form method="post" id="form_update_user"></form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="delete_user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Konfirmasi Hapus Pengguna</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" id="form_delete_users"></form>
     </div>
   </div>
 </div>
