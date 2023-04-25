@@ -6,18 +6,20 @@
                     <em class="fas fa-plus"></em> Tambah Pemasukan
                 </button>
                 <div id="msg"></div>
-                <table class="table data-pemasukan">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Tanggal</th>
-                            <th>Keterangan Pemasukan</th>
-                            <th>Sumber Pemasukan</th>
-                            <th>Jumlah Pemasukan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table data-pemasukan">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Tanggal</th>
+                                <th>Keterangan Pemasukan</th>
+                                <th>Sumber Pemasukan</th>
+                                <th>Jumlah Pemasukan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

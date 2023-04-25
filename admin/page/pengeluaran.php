@@ -6,18 +6,20 @@
                     <em class="fas fa-plus"></em> Tambah Pengeluaran
                 </button>
                 <div id="msg"></div>
-                <table class="table data-pengeluaran">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Tanggal</th>
-                            <th>Keterangan Pengeluaran</th>
-                            <th>Untuk Pengeluaran</th>
-                            <th>Jumlah Pengeluaran</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table data-pengeluaran">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Tanggal</th>
+                                <th>Keterangan Pengeluaran</th>
+                                <th>Untuk Pengeluaran</th>
+                                <th>Jumlah Pengeluaran</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
